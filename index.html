@@ -478,13 +478,18 @@
       <div class="category-grid cols-2">
 
         <div class="project-card">
-          <div class="media-area tall">
-          <div class="media-grid g2">
-            <div class="media-slot"><img src="NSF1.png" alt="NSF Travel Security"/></div>
-            <div class="media-slot"><img src="NSF2.png" alt="NSF Design Processes"/></div>
-            <div class="media-slot"><img src="NSF3.png" alt="NSF ASCE Seminar"/></div>
+          <div class="media-area" style="height:360px; display:flex; flex-direction:column; gap:4px; padding:4px; background:#ede8e0;">
+            <div style="flex:1; overflow:hidden; border-radius:6px;">
+              <img src="nsf1.png" alt="NSF Travel Security" style="width:100%; height:100%; object-fit:cover;"/>
+            </div>
+            <div style="flex:1; overflow:hidden; border-radius:6px;">
+              <img src="nsf2.png" alt="NSF Design Processes" style="width:100%; height:100%; object-fit:cover;"/>
+            </div>
+            <div style="flex:1; overflow:hidden; border-radius:6px;">
+              <img src="nsf3.png" alt="NSF ASCE Seminar" style="width:100%; height:100%; object-fit:cover;"/>
+            </div>
           </div>
-        </div>  
+          </div>
           <div class="card-body">
             <div class="card-badge">Graphic Design · Institutional</div>
             <div class="card-title">NSF Secure Center — Newsletters & Graphics</div>
@@ -526,13 +531,12 @@
       </div>
       <div class="category-grid cols-1">
         <div class="project-card card-horizontal">
-          <div class="media-area" id="solar-media">
-            <div class="media-placeholder" onclick="document.getElementById('solar-input').click()">
-              <div class="upload-ring">📄</div>
-              <div class="upload-label">Upload Slide or Cover Image</div>
-              <div class="upload-hint">JPG, PNG · click to browse</div>
-            </div>
-            <input id="solar-input" class="media-input" type="file" accept="image/*,video/*" onchange="loadMedia(this,'solar-media')"/>
+          <div class="media-area" style="height:320px; position:relative; overflow:hidden; background:#000;">
+            <img id="solar-slide-current" src="sc1.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition: transform 0.4s ease;"/>
+            <img id="solar-slide-next" src="sc2.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:translateX(100%); transition: transform 0.4s ease;"/>
+            <button onclick="solarPrev()" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; border-radius:50%; width:36px; height:36px; font-size:1.2em; cursor:pointer; z-index:10;">‹</button>
+            <button onclick="solarNext()" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; border-radius:50%; width:36px; height:36px; font-size:1.2em; cursor:pointer; z-index:10;">›</button>
+            <div id="solar-counter" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); color:white; font-family:'DM Mono',monospace; font-size:0.7em; padding:4px 12px; border-radius:100px; z-index:10;">1 / 15</div>
           </div>
           <div class="card-body" style="display:flex;flex-direction:column;justify-content:center;">
             <div class="card-badge">Communications · Nonprofit · Fundraising</div>
@@ -574,13 +578,8 @@
         </div>
 
         <div class="project-card">
-          <div class="media-area tall" id="anim-media">
-            <div class="media-placeholder" onclick="document.getElementById('anim-input').click()">
-              <div class="upload-ring">✦</div>
-              <div class="upload-label">Upload Animation / GIF / Video</div>
-              <div class="upload-hint">MP4, GIF, MOV · or replace with YouTube iframe</div>
-            </div>
-            <input id="anim-input" class="media-input" type="file" accept="video/*,image/*" onchange="loadMedia(this,'anim-media')"/>
+          <div class="media-area tall">
+            <video src="animation1.mov" controls style="width:100%; height:100%; object-fit:cover;"></video>
           </div>
           <div class="card-body">
             <div class="card-badge">Motion Design · Personal</div>
@@ -696,6 +695,65 @@
     slot.appendChild(img);
     slot.style.cursor = 'default';
     slot.onclick = null;
+  }
+
+  // Solar Chapter carousel
+  const solarSlides = ['sc1.png','sc2.png','sc3.png','sc4.png','sc5.png','sc6.png','sc7.png','sc8.png','sc9.png','sc10.png','sc11.png','sc12.png','sc13.png','sc14.png','sc15.png'];
+  let solarIndex = 0;
+  let solarAnimating = false;
+
+  function solarNext() {
+    if (solarAnimating) return;
+    solarAnimating = true;
+    const current = document.getElementById('solar-slide-current');
+    const next = document.getElementById('solar-slide-next');
+    const nextIndex = (solarIndex + 1) % solarSlides.length;
+    next.src = solarSlides[nextIndex];
+    next.style.transition = 'none';
+    next.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      current.style.transition = 'transform 0.4s ease';
+      next.style.transition = 'transform 0.4s ease';
+      current.style.transform = 'translateX(-100%)';
+      next.style.transform = 'translateX(0)';
+      setTimeout(() => {
+        solarIndex = nextIndex;
+        current.src = solarSlides[solarIndex];
+        current.style.transition = 'none';
+        current.style.transform = 'translateX(0)';
+        next.style.transition = 'none';
+        next.style.transform = 'translateX(100%)';
+        document.getElementById('solar-counter').textContent = (solarIndex + 1) + ' / ' + solarSlides.length;
+        solarAnimating = false;
+      }, 400);
+    }, 20);
+  }
+
+  function solarPrev() {
+    if (solarAnimating) return;
+    solarAnimating = true;
+    const current = document.getElementById('solar-slide-current');
+    const next = document.getElementById('solar-slide-next');
+    const prevIndex = (solarIndex - 1 + solarSlides.length) % solarSlides.length;
+    next.src = solarSlides[prevIndex];
+    next.style.transition = 'none';
+    next.style.transform = 'translateX(-100%)';
+    setTimeout(() => {
+      current.style.transition = 'transform 0.4s ease';
+      next.style.transition = 'transform 0.4s ease';
+      current.style.transform = 'translateX(100%)';
+      next.style.transform = 'translateX(0)';
+      setTimeout(() => {
+        solarIndex = prevIndex;
+        current.src = solarSlides[solarIndex];
+        current.style.transition = 'none';
+        current.style.transform = 'translateX(0)';
+        next.style.transition = 'none';
+        next.style.transform = 'translateX(-100%)';
+        document.getElementById('solar-counter').textContent = (solarIndex + 1) + ' / ' + solarSlides.length;
+        solarAnimating = false;
+      }, 400);
+    }, 20);
   }
 </script>
 </body>
