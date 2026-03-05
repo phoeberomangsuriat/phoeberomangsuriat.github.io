@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Phoebe Romangsuriat| Digital Media & Communications</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
     :root {
       --black: #2e2b28;
@@ -335,7 +335,7 @@
 <body>
 
 <nav>
-  <div class="nav-logo">Phoebe <span style="color:var(--terracotta);font-style:italic;">R.</span></div>
+  <div class="nav-logo">Phoebe <span>R.</span></div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -375,14 +375,19 @@
     <div class="about-left">
       <p class="section-label">Who I Am</p>
       <h2 class="section-title">Storytelling through<br/>media & design</h2>
-      <p class="about-text">I'm a digital media professional and M.A. Communications candidate at the University of Washington, where I previously earned my B.A. in Cinema & Media Studies with an Informatics minor.</p>
-      <p class="about-detail">My work lives at the intersection of creative storytelling and data-driven strategy — from producing video content and animations to conducting UX research and managing social media for brands and nonprofits. I love building things that connect with audiences and leave a lasting impression.<br/><br/>When I'm not working, you'll find me dancing, crocheting, or on the tennis court.</p>
+      <p class="about-text">I'm a digital media professional and M.A. Communications candidate at the University of Washington, where I earned my B.A. in Cinema & Media Studies with an Informatics minor.</p>
+      <p class="about-detail">My work lives at the intersection of creative storytelling and data-driven strategy, from producing video content and animations to conducting UX research and leading communications for brands and nonprofits. I'm drawn to building things that connect with audiences and leave a lasting impression.<br/><br/>When I'm not working, you'll find me dancing, crocheting, or on the tennis court.</p>
     </div>
     <div class="about-right">
       <div class="edu-card">
         <div class="edu-school">University of Washington</div>
         <div class="edu-degree">M.A. Communications & Digital Media</div>
         <div class="edu-meta">Expected March 2027</div>
+        <div class="edu-courses">
+          <span class="course-tag">User Research</span>
+          <span class="course-tag">Visual Storytelling</span>
+          <span class="course-tag">Advanced User Design</span>
+        </div>
       </div>
       <div class="edu-card">
         <div class="edu-school">University of Washington</div>
@@ -464,13 +469,9 @@
       <div class="category-grid cols-2">
 
         <div class="project-card">
-          <div class="media-area tall" id="varla-media">
-            <div class="media-placeholder" onclick="document.getElementById('varla-input').click()">
-              <div class="upload-ring">+</div>
-              <div class="upload-label">Upload Image or Video</div>
-              <div class="upload-hint">JPG, PNG, MP4 · click to browse</div>
-            </div>
-            <input id="varla-input" class="media-input" type="file" accept="image/*,video/*" onchange="loadMedia(this,'varla-media')"/>
+            <div class="media-area tall" style="display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; background:#2e2b28;">
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:2em; letter-spacing:4px; color:var(--gold);">IN PROGRESS</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:2px; color:rgba(255,255,255,0.3); text-transform:uppercase;">Coming Soon</div>
           </div>
           <div class="card-body">
             <div class="card-badge">UX Research · User Testing</div>
@@ -536,9 +537,10 @@
           </div>
           <div class="card-body">
             <div class="card-badge">Graphic Design · Institutional</div>
-            <div class="card-title">NSF Secure Center — Newsletters & Graphics</div>
+            <div class="card-title">National Science Foundation — Newsletters & Graphics</div>
             <p class="card-desc">Designed newsletters, website visuals, and LinkedIn graphics for the National Science Foundation's research security outreach program using Adobe Illustrator.</p>
             <div class="card-tags"><span class="p-tag">Adobe Illustrator</span><span class="p-tag">Newsletter Design</span><span class="p-tag">LinkedIn Content</span></div>
+            <a href="https://www.nsf.gov/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(232,200,64,0.3); padding-bottom:2px;">Visit NSF →</a>
           </div>
         </div>
         <div class="project-card">
@@ -557,6 +559,7 @@
             <div class="card-title">Sancii — Social Media Graphics</div>
             <p class="card-desc">Created the visual identity for Sancii's social media presence — designing graphics, post layouts, and social media analytics (SEMrush) to grow the brand's online engagement.</p>
             <div class="card-tags"><span class="p-tag">Graphic Design</span><span class="p-tag">Social Media</span><span class="p-tag">Content Creation</span><span class="p-tag">SEMrush</span></div>
+            <a href="https://sancii.com/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(232,200,64,0.3); padding-bottom:2px;">Visit Sancii →</a>
           </div>
         </div>
 
@@ -587,6 +590,7 @@
             <div class="card-title">Solar Chapter — Pitch Deck & Fundraising Campaign</div>
             <p class="card-desc">Developed and presented a full sponsorship pitch deck for Solar Chapter, a nonprofit building solar-powered water pumps in Indonesian villages. The campaign secured high-profile partnerships with CEOs at Ace Hardware and Marriott through strategic communications and proposal writing.</p>
             <div class="card-tags"><span class="p-tag">Pitch Deck</span><span class="p-tag">Proposal Writing</span><span class="p-tag">Sponsorship</span><span class="p-tag">Nonprofit</span><span class="p-tag">Fundraising</span></div>
+            <a href="https://www.solarchapter.com/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(232,200,64,0.3); padding-bottom:2px;">Visit Solar Chapter →</a>
           </div>
         </div>
       </div>
@@ -605,13 +609,11 @@
       <div class="category-grid cols-2">
 
         <div class="project-card">
-          <div class="media-area tall" id="film-media">
-            <div class="media-placeholder" onclick="document.getElementById('film-input').click()">
-              <div class="upload-ring">▶</div>
-              <div class="upload-label">Upload Film or Embed YouTube</div>
-              <div class="upload-hint">MP4, MOV · or replace with YouTube iframe</div>
+          <div class="media-area tall">
+            <div class="media-grid g2">
+              <div class="media-slot"><img src="sf1.png" alt="Short film still"/></div>
+              <div class="media-slot"><img src="sf3.png" alt="Short film still"/></div>
             </div>
-            <input id="film-input" class="media-input" type="file" accept="video/*,image/*" onchange="loadMedia(this,'film-media')"/>
           </div>
           <div class="card-body">
             <div class="card-badge">Filmmaking · Cinema · VR</div>
@@ -742,7 +744,7 @@
   }
 
   // Solar Chapter carousel
-  const solarSlides = ['sc1.png','sc2.png','sc3.png','sc4.png','sc5.png','sc6.png','sc7.png','sc8.png','sc9.png','sc10.png','sc11.png','sc12.png','sc13.png','sc14.png','sc15.png'];
+  const solarSlides = ['sc1.png','sc2.png','sc3.png','sc4.png','sc5.png','sc6.png','sc7.png','sc8.png','sc9.png','sc10.png','sc12.png','sc13.png','sc14.png','sc15.png'];
   let solarIndex = 0;
   let solarAnimating = false;
 
