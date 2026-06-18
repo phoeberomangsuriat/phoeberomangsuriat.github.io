@@ -28,6 +28,58 @@
       overflow-x: hidden;
     }
 
+    /* ===== SEARCH OVERLAY ===== */
+    #search-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(10,9,8,0.75);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 120px; gap: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    #search-overlay.open { opacity: 1; pointer-events: all; }
+    .search-box {
+      width: 100%; max-width: 680px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 24px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+    .search-box svg { flex-shrink: 0; opacity: 0.5; }
+    #search-input {
+      flex: 1; background: none; border: none; outline: none;
+      font-family: 'DM Sans', sans-serif; font-size: 1.15em;
+      color: var(--white); font-weight: 300;
+    }
+    #search-input::placeholder { color: rgba(255,255,255,0.3); }
+    #search-close {
+      background: none; border: none; cursor: pointer;
+      font-family: 'DM Mono', monospace; font-size: 0.7em; letter-spacing: 1px;
+      text-transform: uppercase; color: rgba(255,255,255,0.35); transition: color 0.2s;
+    }
+    #search-close:hover { color: var(--gold); }
+    #search-results {
+      width: 100%; max-width: 680px;
+      display: flex; flex-direction: column; gap: 10px;
+      max-height: 55vh; overflow-y: auto;
+    }
+    .search-result-item {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 16px 20px;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+    }
+    .search-result-item:hover { border-color: var(--gold); background: rgba(232,200,64,0.07); }
+    .sri-section { font-family: 'DM Mono', monospace; font-size: 0.62em; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .sri-title { font-size: 0.95em; color: var(--white); font-weight: 500; margin-bottom: 4px; }
+    .sri-snippet { font-size: 0.8em; color: rgba(255,255,255,0.4); line-height: 1.5; }
+    .sri-snippet mark { background: none; color: var(--gold); font-weight: 600; }
+    #search-empty { color: rgba(255,255,255,0.3); font-family: 'DM Mono', monospace; font-size: 0.8em; letter-spacing: 1px; text-align: center; margin-top: 10px; display: none; }
+
     /* ===== NAV ===== */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 500;
@@ -43,13 +95,32 @@
       color: var(--white);
     }
     .nav-logo span { color: var(--gold); }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
     .nav-links a {
       font-family: 'DM Mono', monospace; font-size: 0.72em;
       text-transform: uppercase; letter-spacing: 2px;
       color: var(--white); text-decoration: none; opacity: 0.45; transition: opacity 0.2s, color 0.2s;
     }
     .nav-links a:hover { opacity: 1; color: var(--gold); }
+    .nav-search-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 8px 16px;
+      display: flex; align-items: center; gap: 10px;
+      cursor: pointer; transition: border-color 0.2s, background 0.2s;
+      color: rgba(255,255,255,0.4);
+    }
+    .nav-search-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(232,200,64,0.07); }
+    .nav-search-btn span {
+      font-family: 'DM Mono', monospace; font-size: 0.68em;
+      letter-spacing: 1.5px; text-transform: uppercase;
+    }
+    .kbd {
+      font-family: 'DM Mono', monospace; font-size: 0.6em;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px; padding: 2px 6px; color: rgba(255,255,255,0.3); letter-spacing: 1px;
+    }
 
     /* ===== HERO ===== */
     .hero {
@@ -213,6 +284,14 @@
     }
     .project-card:hover { transform: translateY(-5px); border-color: var(--gold); }
 
+    /* NUDGE featured badge */
+    .featured-badge {
+      position: absolute; top: 14px; left: 14px; z-index: 10;
+      background: var(--gold); color: var(--black);
+      font-family: 'DM Mono', monospace; font-size: 0.62em; letter-spacing: 2px;
+      text-transform: uppercase; padding: 5px 12px; border-radius: 2px; font-weight: 700;
+    }
+
     /* ---- MEDIA ZONES ---- */
     .media-area {
       position: relative; width: 100%;
@@ -220,26 +299,6 @@
     }
     .media-area.tall   { height: 360px; }
     .media-area.medium { height: 240px; }
-    .media-placeholder {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .media-placeholder:hover { background: rgba(232,200,64,0.05); }
-    .upload-ring {
-      width: 56px; height: 56px; border-radius: 50%;
-      border: 2px dashed rgba(255,255,255,0.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5em; color: rgba(255,255,255,0.3); transition: border-color 0.2s, color 0.2s;
-    }
-    .media-placeholder:hover .upload-ring { border-color: var(--gold); color: var(--gold); }
-    .upload-label {
-      font-family: 'DM Mono', monospace; font-size: 0.68em; letter-spacing: 1.5px;
-      text-transform: uppercase; color: rgba(255,255,255,0.3); transition: color 0.2s;
-    }
-    .media-placeholder:hover .upload-label { color: var(--gold); }
-    .upload-hint { font-size: 0.75em; color: rgba(255,255,255,0.2); }
-    .media-input { display: none; }
     .media-area img, .media-area video { width: 100%; height: 100%; object-fit: cover; display: block; }
     .media-area iframe { width: 100%; height: 100%; border: none; display: block; }
     .media-grid { display: grid; gap: 3px; height: 100%; }
@@ -252,8 +311,53 @@
       transition: background 0.2s; position: relative; overflow: hidden;
     }
     .media-slot:hover { background: #2a2a2a; }
-    .media-slot input { display: none; }
     .media-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    /* NUDGE mockup visual */
+    .nudge-visual {
+      height: 360px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .nudge-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(232,200,64,0.08) 0%, transparent 60%);
+    }
+    .nudge-phone {
+      width: 160px; height: 290px;
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 24px; padding: 12px;
+      display: flex; flex-direction: column; gap: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+      position: relative; z-index: 1;
+    }
+    .nudge-screen-top {
+      background: rgba(232,200,64,0.15); border-radius: 14px;
+      height: 70px; display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.1em; letter-spacing: 3px; color: var(--gold);
+    }
+    .nudge-bubble {
+      background: rgba(255,255,255,0.08); border-radius: 10px;
+      padding: 8px 10px; font-size: 0.6em; color: rgba(255,255,255,0.6); line-height: 1.4;
+    }
+    .nudge-bubble.ai {
+      background: rgba(232,200,64,0.12); border: 1px solid rgba(232,200,64,0.2);
+      color: rgba(232,200,64,0.9);
+    }
+    .nudge-agent-tag {
+      position: absolute; top: 16px; right: -60px;
+      background: var(--gold); color: var(--black);
+      font-family: 'DM Mono', monospace; font-size: 0.6em; letter-spacing: 1px;
+      padding: 5px 10px; border-radius: 20px; font-weight: 700; white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(232,200,64,0.4);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
 
     /* ---- CARD BODY ---- */
     .card-body { padding: 24px 28px; }
@@ -329,10 +433,23 @@
       .skills-layout { grid-template-columns: 1fr; gap: 30px; }
       .contact-grid { grid-template-columns: 1fr; gap: 40px; }
       #about, #projects, #contact { padding: 70px 0; }
+      .nav-search-btn .kbd { display: none; }
+      .nudge-agent-tag { right: -40px; }
     }
   </style>
 </head>
 <body>
+
+<!-- ===== SEARCH OVERLAY ===== -->
+<div id="search-overlay" role="dialog" aria-modal="true" aria-label="Search portfolio">
+  <div class="search-box">
+    <svg width="20" height="20" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input id="search-input" type="text" placeholder="Search projects, skills, experience…" autocomplete="off" spellcheck="false"/>
+    <button id="search-close">ESC</button>
+  </div>
+  <div id="search-results"></div>
+  <div id="search-empty">No results found</div>
+</div>
 
 <nav>
   <div class="nav-logo">Phoebe <span>R.</span></div>
@@ -342,6 +459,13 @@
     <li><a href="#experience">Experience</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li>
+      <button class="nav-search-btn" id="search-open-btn" aria-label="Open search">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Search</span>
+        <span class="kbd">⌘K</span>
+      </button>
+    </li>
   </ul>
 </nav>
 
@@ -406,7 +530,6 @@
   </div>
 </div>
 
-
 <div id="experience">
   <div class="section">
     <p class="section-label">Where I've Worked</p>
@@ -464,12 +587,44 @@
           <div class="category-name">UX & Web Design</div>
           <div class="category-desc">User research, usability testing, and website design</div>
         </div>
-        <div class="category-count">3 Projects</div>
+        <div class="category-count">4 Projects</div>
+      </div>
+      <div class="category-grid cols-2" style="margin-bottom:20px;">
+
+        <!-- NUDGE — featured full-width-ish card -->
+        <div class="project-card" style="grid-column: 1 / -1;">
+          <div class="card-horizontal">
+            <div class="nudge-visual">
+              <span class="featured-badge">✦ Featured</span>
+              <div class="nudge-phone">
+                <div class="nudge-screen-top">NUDGE</div>
+                <div class="nudge-bubble ai">✦ AI Agent: "You land in 3h — I've found a ramen spot near your hotel and reserved a table. Want me to book it?"</div>
+                <div class="nudge-bubble">📍 Tokyo · Day 1 of 7</div>
+                <div class="nudge-bubble">🗓 3 suggestions ready</div>
+              </div>
+              <div class="nudge-agent-tag">Proactive AI ✦</div>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;justify-content:center;">
+              <div class="card-badge">App Design · AI Product · Travel</div>
+              <div class="card-title">NUDGE — AI Travel Agent App</div>
+              <p class="card-desc">A travel companion app built around a proactive AI agent that anticipates needs before you ask. NUDGE surfaces recommendations, makes bookings, and adapts to your itinerary in real time — moving travel planning from reactive to effortless.</p>
+              <div class="card-tags">
+                <span class="p-tag">AI Agent</span>
+                <span class="p-tag">UX Design</span>
+                <span class="p-tag">Product Strategy</span>
+                <span class="p-tag">Prototyping</span>
+                <span class="p-tag">Travel Tech</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       <div class="category-grid cols-3">
+
         <div class="project-card">
           <div class="media-area tall" style="cursor:pointer;" onclick="window.open('https://phoeberomangsuriat.github.io/data-privacy-law/', '_blank')">
-            <img src="law1.png" alt="Data Privacy Law project" style="width:100%; height:100%; object-fit:cover; object-position:top;"/>
+            <img src="Law1.png" alt="Data Privacy Law project" style="width:100%; height:100%; object-fit:cover; object-position:top;"/>
             <div style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.55); color:var(--gold); font-family:'DM Mono',monospace; font-size:0.65em; letter-spacing:1.5px; text-transform:uppercase; padding:5px 10px; border-radius:2px; z-index:10;">Click to visit ↗</div>
           </div>
           <div class="card-body">
@@ -485,8 +640,9 @@
             <a href="https://phoeberomangsuriat.github.io/data-privacy-law/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(232,200,64,0.3); padding-bottom:2px;">View Project →</a>
           </div>
         </div>
+
         <div class="project-card">
-            <div class="media-area tall" style="display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; background:#2e2b28;">
+          <div class="media-area tall" style="display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; background:#2e2b28;">
             <div style="font-family:'Bebas Neue',sans-serif; font-size:2em; letter-spacing:4px; color:var(--gold);">IN PROGRESS</div>
             <div style="font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:2px; color:rgba(255,255,255,0.3); text-transform:uppercase;">Coming Soon</div>
           </div>
@@ -500,21 +656,13 @@
 
         <div class="project-card">
           <div class="media-area tall" style="display:flex; flex-direction:column; gap:4px; padding:4px; background:#ede8e0; height:360px;">
-            <!-- wide website screenshot on top -->
             <div style="flex:1.2; overflow:hidden; border-radius:6px;">
               <img src="sr4.png" alt="Salon Ritual website" style="width:100%; height:100%; object-fit:cover; object-position: top;"/>
             </div>
-            <!-- 3 square graphics on bottom row -->
             <div style="flex:1; display:flex; gap:4px;">
-              <div style="flex:1; overflow:hidden; border-radius:6px;">
-                <img src="sr1.png" alt="Salon Ritual services" style="width:100%; height:100%; object-fit:cover;"/>
-              </div>
-              <div style="flex:1; overflow:hidden; border-radius:6px;">
-                <img src="sr2.jpg" alt="Salon Ritual airtouch" style="width:100%; height:100%; object-fit:cover;"/>
-              </div>
-              <div style="flex:1; overflow:hidden; border-radius:6px;">
-                <img src="sr3.png" alt="Salon Ritual stylists" style="width:100%; height:100%; object-fit:cover;"/>
-              </div>
+              <div style="flex:1; overflow:hidden; border-radius:6px;"><img src="sr1.png" alt="Salon Ritual services" style="width:100%; height:100%; object-fit:cover;"/></div>
+              <div style="flex:1; overflow:hidden; border-radius:6px;"><img src="sr2.jpg" alt="Salon Ritual airtouch" style="width:100%; height:100%; object-fit:cover;"/></div>
+              <div style="flex:1; overflow:hidden; border-radius:6px;"><img src="sr3.png" alt="Salon Ritual stylists" style="width:100%; height:100%; object-fit:cover;"/></div>
             </div>
           </div>
           <div class="card-body">
@@ -536,39 +684,45 @@
           <div class="category-name">Design & Graphics</div>
           <div class="category-desc">Graphic design, social media visuals, and digital content</div>
         </div>
-        <div class="category-count">2 Projects</div>
+        <div class="category-count">3 Projects</div>
       </div>
-      <div class="category-grid cols-2">
+      <div class="category-grid cols-3">
 
-        <div class="project-card">
-          <div class="media-area" style="height:auto; display:flex; flex-direction:column; gap:10px; padding:10px; background:#ede8e0;">
-            <div style="flex:1; overflow:hidden; border-radius:6px;">
-              <img src="nsf1.png" alt="NSF Travel Security" style="width:100%; height:auto; display:block; border-radius:6px;"/>
+        <!-- NSF SECURE card -->
+        <div class="project-card" style="grid-column: 1 / -1;">
+          <div class="card-horizontal">
+            <div class="media-area" style="height:100%; min-height:320px; border-bottom:none; border-right:1px solid var(--border-dark); display:flex; flex-direction:column; gap:10px; padding:10px; background:#ede8e0;">
+              <div style="flex:1; overflow:hidden; border-radius:6px;"><img src="nsf1.png" alt="NSF Travel Security" style="width:100%; height:100%; object-fit:cover;"/></div>
+              <div style="flex:1; display:flex; gap:8px;">
+                <div style="flex:1; overflow:hidden; border-radius:6px;"><img src="nsf4.png" alt="NSF Design Processes" style="width:100%; height:100%; object-fit:cover;"/></div>
+                <div style="flex:1; overflow:hidden; border-radius:6px;"><img src="nsf3.png" alt="NSF ASCE Seminar" style="width:100%; height:100%; object-fit:cover;"/></div>
+              </div>
             </div>
-            <div style="flex:1; overflow:hidden; border-radius:6px;">
-              <img src="nsf4.png" alt="NSF Design Processes" style="width:100%; height:auto; display:block; border-radius:6px;"/>
+            <div class="card-body" style="display:flex;flex-direction:column;justify-content:center;">
+              <div class="card-badge">Institutional Design · Research Security</div>
+              <div class="card-title">NSF SECURE — Design & Digital Media</div>
+              <p class="card-desc">As Design & Digital Media Associate at the National Science Foundation's SECURE program, I create all visual communications — LinkedIn graphics, newsletters, website visuals, and seminar materials — for a national research security outreach center. Each piece is crafted to make complex policy information accessible and engaging to academic and institutional audiences.</p>
+              <div class="card-tags">
+                <span class="p-tag">Adobe Illustrator</span>
+                <span class="p-tag">Newsletter Design</span>
+                <span class="p-tag">LinkedIn Content</span>
+                <span class="p-tag">Research Security</span>
+                <span class="p-tag">Institutional Comms</span>
+              </div>
+              <a href="https://www.nsf.gov/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(232,200,64,0.3); padding-bottom:2px;">Visit NSF →</a>
             </div>
-            <div style="flex:1; overflow:hidden; border-radius:6px;">
-              <img src="nsf3.png" alt="NSF ASCE Seminar" style="width:100%; height:auto; display:block; border-radius:6px;"/>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-badge">Graphic Design · Institutional</div>
-            <div class="card-title">National Science Foundation — Newsletters & Graphics</div>
-            <p class="card-desc">Designed newsletters, website visuals, and LinkedIn graphics for the National Science Foundation's research security outreach program using Adobe Illustrator.</p>
-            <div class="card-tags"><span class="p-tag">Adobe Illustrator</span><span class="p-tag">Newsletter Design</span><span class="p-tag">LinkedIn Content</span></div>
-            <a href="https://www.nsf.gov/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(232,200,64,0.3); padding-bottom:2px;">Visit NSF →</a>
           </div>
         </div>
-        <div class="project-card">
+
+        <div class="project-card" style="grid-column: 1 / span 2;">
           <div class="media-area tall">
             <div class="media-grid g3">
               <div class="media-slot"><img src="Sancii1.png" alt="Sancii social media design"/></div>
-                <div class="media-slot"><img src="Sancii2.png" alt="Sancii social media design"/></div>
-                <div class="media-slot"><img src="Sancii3.png" alt="Sancii social media design"/></div>
-                <div class="media-slot"><img src="Sancii4.png" alt="Sancii social media design"/></div>
-                <div class="media-slot"><img src="Sancii5.png" alt="Sancii social media design"/></div>
-                <div class="media-slot"><img src="Sancii6.png" alt="Sancii social media design"/></div>
+              <div class="media-slot"><img src="Sancii2.png" alt="Sancii social media design"/></div>
+              <div class="media-slot"><img src="Sancii3.png" alt="Sancii social media design"/></div>
+              <div class="media-slot"><img src="Sancii4.png" alt="Sancii social media design"/></div>
+              <div class="media-slot"><img src="Sancii5.png" alt="Sancii social media design"/></div>
+              <div class="media-slot"><img src="Sancii6.png" alt="Sancii social media design"/></div>
             </div>
           </div>
           <div class="card-body">
@@ -580,40 +734,28 @@
           </div>
         </div>
 
-      </div>
-    </div>
-
-    <!-- CATEGORY 3: COMMUNICATIONS & STRATEGY -->
-    <div class="project-category">
-      <div class="category-header">
-        <div class="category-icon">📣</div>
-        <div>
-          <div class="category-name">Communications & Strategy</div>
-          <div class="category-desc">Presentations, fundraising, and strategic outreach</div>
-        </div>
-        <div class="category-count">1 Project</div>
-      </div>
-      <div class="category-grid cols-1">
-        <div class="project-card card-horizontal">
+        <!-- Solar Chapter moved here under Design since it's visual/comms -->
+        <div class="project-card">
           <div class="media-area" style="height:320px; position:relative; overflow:hidden; background:#000;">
             <img id="solar-slide-current" src="sc1.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition: transform 0.4s ease;"/>
             <img id="solar-slide-next" src="sc2.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:translateX(100%); transition: transform 0.4s ease;"/>
             <button onclick="solarPrev()" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; border-radius:50%; width:36px; height:36px; font-size:1.2em; cursor:pointer; z-index:10;">‹</button>
             <button onclick="solarNext()" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.5); color:white; border:none; border-radius:50%; width:36px; height:36px; font-size:1.2em; cursor:pointer; z-index:10;">›</button>
-            <div id="solar-counter" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); color:white; font-family:'DM Mono',monospace; font-size:0.7em; padding:4px 12px; border-radius:100px; z-index:10;">1 / 15</div>
+            <div id="solar-counter" style="position:absolute; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.5); color:white; font-family:'DM Mono',monospace; font-size:0.7em; padding:4px 12px; border-radius:100px; z-index:10;">1 / 14</div>
           </div>
-          <div class="card-body" style="display:flex;flex-direction:column;justify-content:center;">
+          <div class="card-body">
             <div class="card-badge">Communications · Nonprofit · Fundraising</div>
-            <div class="card-title">Solar Chapter — Pitch Deck & Fundraising Campaign</div>
-            <p class="card-desc">Developed and presented a full sponsorship pitch deck for Solar Chapter, a nonprofit building solar-powered water pumps in Indonesian villages. The campaign secured high-profile partnerships with CEOs at Ace Hardware and Marriott through strategic communications and proposal writing.</p>
-            <div class="card-tags"><span class="p-tag">Pitch Deck</span><span class="p-tag">Proposal Writing</span><span class="p-tag">Sponsorship</span><span class="p-tag">Nonprofit</span><span class="p-tag">Fundraising</span></div>
+            <div class="card-title">Solar Chapter — Pitch Deck & Fundraising</div>
+            <p class="card-desc">Developed and presented a full sponsorship pitch deck for Solar Chapter, securing partnerships with CEOs at Ace Hardware and Marriott through strategic communications and proposal writing.</p>
+            <div class="card-tags"><span class="p-tag">Pitch Deck</span><span class="p-tag">Proposal Writing</span><span class="p-tag">Sponsorship</span><span class="p-tag">Nonprofit</span></div>
             <a href="https://www.solarchapter.com/" target="_blank" style="display:inline-flex; align-items:center; gap:8px; margin-top:16px; font-family:'DM Mono',monospace; font-size:0.72em; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(232,200,64,0.3); padding-bottom:2px;">Visit Solar Chapter →</a>
           </div>
         </div>
+
       </div>
     </div>
 
-    <!-- CATEGORY 4: FILM & MOTION -->
+    <!-- CATEGORY 3: FILM & MOTION -->
     <div class="project-category">
       <div class="category-header">
         <div class="category-icon">🎬</div>
@@ -624,7 +766,6 @@
         <div class="category-count">2 Projects</div>
       </div>
       <div class="category-grid cols-2">
-
         <div class="project-card">
           <div class="media-area tall">
             <div class="media-grid g2">
@@ -639,7 +780,6 @@
             <div class="card-tags"><span class="p-tag">Directing</span><span class="p-tag">Scriptwriting</span><span class="p-tag">Video Editing</span><span class="p-tag">VR / 360°</span></div>
           </div>
         </div>
-
         <div class="project-card">
           <div class="media-area tall">
             <video src="animation1.mov" controls style="width:100%; height:100%; object-fit:cover;"></video>
@@ -651,7 +791,6 @@
             <div class="card-tags"><span class="p-tag">After Effects</span><span class="p-tag">Motion Graphics</span><span class="p-tag">Animation</span></div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -717,7 +856,6 @@
           <span class="contact-link-icon">💼</span>
           <div><div class="contact-link-label">LinkedIn</div>linkedin.com/in/phoeberomangsuriat</div>
         </a>
-
       </div>
     </div>
   </div>
@@ -726,41 +864,95 @@
 <footer>© 2026 Phoebe Romangsuriat · Built with GitHub Pages</footer>
 
 <script>
-  function loadMedia(input, areaId) {
-    const file = input.files[0];
-    if (!file) return;
-    const area = document.getElementById(areaId);
-    const placeholder = area.querySelector('.media-placeholder');
-    if (placeholder) placeholder.style.display = 'none';
-    area.querySelector('.media-input').style.display = 'none';
-    const url = URL.createObjectURL(file);
-    if (file.type.startsWith('video/')) {
-      const v = document.createElement('video');
-      v.src = url; v.controls = true;
-      v.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
-      area.appendChild(v);
-    } else {
-      const img = document.createElement('img');
-      img.src = url; img.alt = 'Project media';
-      area.appendChild(img);
+  /* ===== SEARCH ===== */
+  const searchData = [
+    { section: 'Projects · UX & Web Design', title: 'NUDGE — AI Travel Agent App', snippet: 'Proactive AI agent app for travel. Surfaces recommendations, makes bookings, adapts itinerary in real time.', anchor: '#projects', keywords: 'nudge ai travel app product design ux agent' },
+    { section: 'Projects · UX & Web Design', title: 'Data Security vs. Privacy', snippet: 'Interactive website examining data security and privacy in U.S. digital systems.', anchor: '#projects', keywords: 'data privacy law interactive web html css' },
+    { section: 'Projects · UX & Web Design', title: 'Varla Scooter — Website UX', snippet: 'End-to-end user research and usability testing for Varla Scooter website.', anchor: '#projects', keywords: 'ux research user testing varla scooter web design' },
+    { section: 'Projects · UX & Web Design', title: 'Salon Ritual — Website & Rebrand', snippet: 'Built a new website and full brand overhaul for Salon Ritual — UX, identity, digital presence.', anchor: '#projects', keywords: 'salon ritual web design ux brand identity' },
+    { section: 'Projects · Design & Graphics', title: 'NSF SECURE — Design & Digital Media', snippet: 'LinkedIn graphics, newsletters, and website visuals for the NSF research security outreach center.', anchor: '#projects', keywords: 'nsf national science foundation secure newsletter linkedin graphic design illustrator research security' },
+    { section: 'Projects · Design & Graphics', title: 'Sancii — Social Media Graphics', snippet: 'Visual identity and social media graphics for Sancii using SEMrush analytics.', anchor: '#projects', keywords: 'sancii social media graphic design semrush content' },
+    { section: 'Projects · Design & Graphics', title: 'Solar Chapter — Pitch Deck & Fundraising', snippet: 'Sponsorship pitch deck securing partnerships with Ace Hardware and Marriott CEOs.', anchor: '#projects', keywords: 'solar chapter pitch deck fundraising nonprofit proposal sponsorship' },
+    { section: 'Projects · Film & Motion', title: 'Short Films', snippet: 'Wrote, directed, and edited original short films including a VR 360° immersive short.', anchor: '#projects', keywords: 'film cinema vr 360 directing scriptwriting video editing' },
+    { section: 'Projects · Film & Motion', title: 'Animations — After Effects', snippet: 'Motion graphics and character animations created in Adobe After Effects.', anchor: '#projects', keywords: 'animation after effects motion graphics' },
+    { section: 'Experience', title: 'Design & Digital Media Associate — NSF', snippet: 'Designing website, newsletter, and LinkedIn content for national research security outreach. Jan 2026–Present.', anchor: '#experience', keywords: 'national science foundation nsf design digital media associate linkedin newsletter' },
+    { section: 'Experience', title: 'Media & Marketing Manager — Salon Ritual', snippet: 'Led full rebranding, digital marketing, website UX, social media. Sep 2024–Oct 2025.', anchor: '#experience', keywords: 'salon ritual marketing manager branding ux social media' },
+    { section: 'Experience', title: 'Social Media & Marketing Manager — Sancii', snippet: 'Social media strategy and SEO techniques using SEMrush. Oct 2024–Jan 2025.', anchor: '#experience', keywords: 'sancii social media marketing seo semrush' },
+    { section: 'Experience', title: 'Sponsorship & Fundraising Director — Solar Chapter', snippet: 'Led initiatives to build solar-powered water pumps in Indonesian villages. Jan 2024–Dec 2025.', anchor: '#experience', keywords: 'solar chapter sponsorship fundraising nonprofit indonesia' },
+    { section: 'Experience', title: 'Social Media Manager — Unbound Seattle', snippet: 'SEO-driven social media content for a large-scale dance convention. Sep–Nov 2024.', anchor: '#experience', keywords: 'unbound seattle social media manager dance seo' },
+    { section: 'Skills', title: 'Marketing & Media', snippet: 'Social Media Strategy, SEO & SEMrush, Content Creation, Media Analytics, Newsletter Design, Brand Strategy.', anchor: '#skills', keywords: 'social media seo semrush analytics brand strategy newsletter marketing' },
+    { section: 'Skills', title: 'Design & Production', snippet: 'Adobe Creative Suite, After Effects, Premiere Pro, Graphic Design, UX Research, Scriptwriting.', anchor: '#skills', keywords: 'adobe illustrator after effects premiere pro graphic design ux research scriptwriting' },
+    { section: 'Skills', title: 'Tech & Programming', snippet: 'HTML, CSS, JavaScript, React, Java, R Scripting, VS Code, Front End Development.', anchor: '#skills', keywords: 'html css javascript react java r scripting vscode frontend' },
+    { section: 'About', title: 'M.A. Communications & Digital Media — UW', snippet: 'M.A. candidate at University of Washington. User Research, Visual Storytelling, Advanced User Design. Expected March 2027.', anchor: '#about', keywords: 'university washington uw masters communications digital media graduate' },
+    { section: 'About', title: 'B.A. Cinema & Media Studies — UW', snippet: "Dean's List. Informatics minor. Video Editing, UX Research, Scriptwriting, Media Analytics, R Scripting.", anchor: '#about', keywords: 'university washington uw bachelors cinema media studies informatics deans list' },
+  ];
+
+  function highlight(text, query) {
+    if (!query) return text;
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+  }
+
+  function runSearch(query) {
+    const q = query.trim().toLowerCase();
+    const resultsEl = document.getElementById('search-results');
+    const emptyEl = document.getElementById('search-empty');
+    resultsEl.innerHTML = '';
+    if (!q) { emptyEl.style.display = 'none'; return; }
+
+    const results = searchData.filter(item =>
+      item.title.toLowerCase().includes(q) ||
+      item.snippet.toLowerCase().includes(q) ||
+      item.keywords.toLowerCase().includes(q)
+    );
+
+    if (results.length === 0) {
+      emptyEl.style.display = 'block';
+      return;
     }
-    area.style.cursor = 'default';
+    emptyEl.style.display = 'none';
+
+    results.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'search-result-item';
+      div.innerHTML = `
+        <div class="sri-section">${item.section}</div>
+        <div class="sri-title">${highlight(item.title, query.trim())}</div>
+        <div class="sri-snippet">${highlight(item.snippet, query.trim())}</div>
+      `;
+      div.addEventListener('click', () => {
+        closeSearch();
+        setTimeout(() => {
+          document.querySelector(item.anchor)?.scrollIntoView({ behavior: 'smooth' });
+        }, 200);
+      });
+      resultsEl.appendChild(div);
+    });
   }
 
-  function loadSlot(input) {
-    const file = input.files[0];
-    if (!file) return;
-    const slot = input.parentElement;
-    const img = document.createElement('img');
-    img.src = URL.createObjectURL(file);
-    img.alt = 'Project image';
-    slot.innerHTML = '';
-    slot.appendChild(img);
-    slot.style.cursor = 'default';
-    slot.onclick = null;
+  function openSearch() {
+    document.getElementById('search-overlay').classList.add('open');
+    document.getElementById('search-input').focus();
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSearch() {
+    document.getElementById('search-overlay').classList.remove('open');
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-results').innerHTML = '';
+    document.getElementById('search-empty').style.display = 'none';
+    document.body.style.overflow = '';
   }
 
-  // Solar Chapter carousel
+  document.getElementById('search-open-btn').addEventListener('click', openSearch);
+  document.getElementById('search-close').addEventListener('click', closeSearch);
+  document.getElementById('search-input').addEventListener('input', e => runSearch(e.target.value));
+  document.getElementById('search-overlay').addEventListener('click', e => { if (e.target === document.getElementById('search-overlay')) closeSearch(); });
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Escape') closeSearch();
+  });
+
+  /* ===== SOLAR CAROUSEL ===== */
   const solarSlides = ['sc1.png','sc2.png','sc3.png','sc4.png','sc5.png','sc6.png','sc7.png','sc8.png','sc9.png','sc10.png','sc12.png','sc13.png','sc14.png','sc15.png'];
   let solarIndex = 0;
   let solarAnimating = false;
